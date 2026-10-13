@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narin — Sənin Üçün Xüsusi</title>
+    <!-- Google Fonts: Cormorant Garamond & DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-bg: #FFF8FA;
+            --color-bg-alt: #FFF1F5;
+            --color-pink-light: #FFE3EC;
+            --color-pink: #F4A7C1;
+            --color-pink-strong: #E982A6;
+            --color-rose: #D96C91;
+            --color-lavender: #EAE1FF;
+            --color-lavender-strong: #BFA7F2;
+            --color-cream: #FFFDF8;
+            --color-text: #59414B;
+            --color-text-secondary: #8B6D7A;
+            --color-white: #FFFFFF;
+            --shadow-soft: 0 10px 30px -5px rgba(233, 130, 166, 0.15);
+            --shadow-card: 0 15px 35px -10px rgba(217, 108, 145, 0.12);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: floatOrb 18s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 450px;
+            height: 450px;
+            background: rgba(255, 227, 236, 0.7);
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(234, 225, 255, 0.5);
+            bottom: -150px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: rgba(244, 167, 193, 0.3);
+            top: 40%;
+            left: 60%;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 50px) scale(1.1); }
+        }
+
+        /* Floating particles canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--color-rose);
+            margin-bottom: 12px;
+            font-weight: 600;
+            background: rgba(217, 108, 145, 0.08);
+            padding: 6px 16px;
+            border-radius: 50px;
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            color: var(--color-text);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 1.5vw, 1.15rem);
+            color: var(--color-text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        #hero {
+            text-align: center;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-heart-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(233, 130, 166, 0.25);
+            animation: pulseRing 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(0.95); opacity: 0; }
+        }
+
+        .hero-heart-icon {
+            width: 64px;
+            height: 64px;
+            fill: url(#heartGradient);
+            animation: heartbeat 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 8px 16px rgba(217, 108, 145, 0.3));
+            z-index: 2;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+        }
+
+        .hero-greeting {
+            font-size: 1.1rem;
+            color: var(--color-rose);
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--color-rose), var(--color-pink-strong));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-style: italic;
+        }
+
+        .hero-description {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--color-text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .btn-romantic {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--color-rose), var(--color-pink-strong));
+            color: var(--color-white);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 16px 36px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(217, 108, 145, 0.35);
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-romantic:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(217, 108, 145, 0.45);
+        }
+
+        .btn-romantic:active {
+            transform: translateY(-1px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+            opacity: 0.8;
+            animation: bounceScroll 2s infinite;
+        }
+
+        @keyframes bounceScroll {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-8px) translateX(-50%); }
+            60% { transform: translateY(-4px) translateX(-50%); }
+        }
+
+        #note {
+            background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+        }
+
+        .note-card {
+            background: var(--color-cream);
+            border-radius: var(--radius-lg);
+            padding: clamp(30px, 6vw, 60px);
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(244, 167, 193, 0.3);
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .note-card::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D96C91'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            opacity: 0.15;
+        }
+
+        .note-salutation {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-rose);
+            margin-bottom: 20px;
+        }
+
+        .note-text {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--color-text);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .note-signature {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--color-rose);
+            text-align: right;
+            margin-top: 30px;
+        }
+
+        #qualities {
+            background-color: var(--color-bg);
+        }
+
+        .qualities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .quality-card {
+            background: var(--color-white);
+            padding: 35px 30px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(244, 167, 193, 0.2);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .quality-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(217, 108, 145, 0.2);
+            border-color: var(--color-pink);
+        }
+
+        .quality-icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--color-bg-alt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            color: var(--color-rose);
+            transition: var(--transition-smooth);
+        }
+
+        .quality-card:hover .quality-icon-box {
+            background: linear-gradient(135deg, var(--color-rose), var(--color-pink-strong));
+            color: var(--color-white);
+            transform: scale(1.08) rotate(5deg);
+        }
+
+        .quality-icon-box svg {
+            width: 26px;
+            height: 26px;
+            fill: currentColor;
+        }
+
+        .quality-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+
+        .quality-desc {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        #garden {
+            background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .garden-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .garden-stage {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: clamp(15px, 4vw, 45px);
+            margin: 40px 0;
+            flex-wrap: wrap;
+            min-height: 280px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(244, 167, 193, 0.3);
+            box-shadow: var(--shadow-soft);
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .interactive-flower {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: var(--transition-smooth);
+            user-select: none;
+            position: relative;
+        }
+
+        .interactive-flower:hover {
+            transform: scale(1.1) translateY(-5px);
+        }
+
+        .flower-svg {
+            width: 70px;
+            height: 140px;
+            filter: drop-shadow(0 6px 12px rgba(217, 108, 145, 0.2));
+            animation: swayFlower 4s ease-in-out infinite alternate;
+            transform-origin: bottom center;
+        }
+
+        .flower-svg:nth-child(even) {
+            animation-duration: 5s;
+            animation-delay: -1s;
+        }
+
+        @keyframes swayFlower {
+            0% { transform: rotate(-3deg); }
+            100% { transform: rotate(3deg); }
+        }
+
+        .flower-hint {
+            font-size: 0.8rem;
+            color: var(--color-rose);
+            margin-top: 10px;
+            opacity: 0.8;
+            font-weight: 500;
+            background: var(--color-white);
+            padding: 4px 10px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .garden-message-box {
+            margin-top: 20px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 16px 28px;
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--color-pink-light);
+            max-width: 600px;
+            width: 100%;
+            font-size: 1.1rem;
+            color: var(--color-rose);
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition-smooth);
+        }
+
+        .garden-message-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #moments {
+            background-color: var(--color-bg);
+        }
+
+        .moments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            width: 100%;
+        }
+
+        .moment-card {
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            padding: 30px 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(244, 167, 193, 0.2);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .moment-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--color-rose);
+            box-shadow: 0 15px 30px rgba(217, 108, 145, 0.2);
+        }
+
+        .moment-icon {
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            background: var(--color-bg-alt);
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition-smooth);
+        }
+
+        .moment-card:hover .moment-icon {
+            transform: scale(1.1) rotate(10deg);
+            background: var(--color-pink-light);
+        }
+
+        .moment-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 10px;
+        }
+
+        .moment-preview {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+        }
+
+        .moment-reveal {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            opacity: 0;
+            font-size: 0.95rem;
+            color: var(--color-rose);
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.5;
+            margin-top: 0;
+        }
+
+        .moment-card.active .moment-reveal {
+            max-height: 100px;
+            opacity: 1;
+            margin-top: 12px;
+        }
+
+        .moment-card.active {
+            background: var(--color-bg-alt);
+            border-color: var(--color-rose);
+        }
+
+        #letter {
+            background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+        }
+
+        .envelope-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 460px;
+            height: 310px;
+            background: #FCE8EE;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(217, 108, 145, 0.3);
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(217, 108, 145, 0.3);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 155px;
+            background: #F7D6E0;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 3;
+            border-top-left-radius: var(--radius-md);
+            border-top-right-radius: var(--radius-md);
+        }
+
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-seal {
+            position: absolute;
+            top: 120px;
+            z-index: 4;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-rose), var(--color-pink-strong));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: var(--transition-smooth);
+        }
+
+        .envelope-seal svg {
+            width: 24px;
+            height: 24px;
+            fill: #FFFFFF;
+        }
+
+        .envelope-wrapper.open .envelope-seal {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .envelope-prompt {
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.95rem;
+            color: var(--color-rose);
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 2;
+            text-transform: uppercase;
+        }
+
+        .love-letter-paper {
+            display: none;
+            background: var(--color-cream);
+            width: 100%;
+            max-width: 700px;
+            padding: clamp(35px, 6vw, 60px);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(244, 167, 193, 0.4);
+            position: relative;
+            animation: letterReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes letterReveal {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .love-letter-paper.show {
+            display: block;
+        }
+
+        .letter-content h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            color: var(--color-rose);
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .letter-content p {
+            font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+            color: var(--color-text);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .letter-content .signature {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-style: italic;
+            color: var(--color-rose);
+            margin-top: 35px;
+            text-align: right;
+        }
+
+        #surprise {
+            background-color: var(--color-bg);
+        }
+
+        .gift-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .gift-box-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            cursor: pointer;
+            margin-bottom: 40px;
+            transition: var(--transition-smooth);
+        }
+
+        .gift-box-wrapper:hover {
+            transform: scale(1.06) rotate(2deg);
+        }
+
+        .gift-box-body {
+            position: absolute;
+            bottom: 0;
+            width: 160px;
+            height: 130px;
+            background: linear-gradient(135deg, var(--color-pink-strong), var(--color-rose));
+            left: 10px;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 15px 30px rgba(217, 108, 145, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gift-box-lid {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 180px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--color-rose), #C2547B);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s ease;
+        }
+
+        .gift-box-wrapper.opened .gift-box-lid {
+            transform: translateY(-50px) rotate(-15deg);
+            top: 0;
+        }
+
+        .gift-ribbon-vertical {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background: var(--color-lavender);
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+        }
+
+        .gift-ribbon-horizontal {
+            position: absolute;
+            height: 30px;
+            width: 100%;
+            background: var(--color-lavender);
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+        }
+
+        .gift-reveal-card {
+            display: none;
+            background: var(--color-white);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--color-pink-light);
+            animation: giftReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        @keyframes giftReveal {
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .gift-reveal-card.show {
+            display: block;
+        }
+
+        .gift-reveal-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--color-rose);
+            margin-bottom: 16px;
+        }
+
+        .gift-reveal-card p {
+            font-size: 1.15rem;
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+
+        #outro {
+            background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .outro-content {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .outro-heart-big {
+            width: 80px;
+            height: 80px;
+            fill: url(#heartGradient);
+            margin-bottom: 25px;
+            animation: heartbeat 2s infinite;
+            filter: drop-shadow(0 10px 20px rgba(217, 108, 145, 0.3));
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .outro-heart-big:hover {
+            transform: scale(1.2);
+        }
+
+        .outro-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 20px;
+        }
+
+        .outro-title span {
+            color: var(--color-rose);
+            font-style: italic;
+        }
+
+        .outro-desc {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--color-text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        footer {
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            background: var(--color-bg-alt);
+            border-top: 1px solid rgba(244, 167, 193, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 16px;
+                min-height: auto;
+            }
+            .garden-stage {
+                gap: 10px;
+                padding: 15px 10px;
+            }
+            .flower-svg {
+                width: 55px;
+                height: 110px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- SVG Gradients Definition -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#D96C91" />
+                <stop offset="100%" stop-color="#E982A6" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <main>
+        <section id="hero" class="in-view">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-heart-wrapper">
+                        <div class="pulse-ring"></div>
+                        <svg class="hero-heart-icon" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    <span class="hero-greeting">Bu kiçik dünya sənin üçün hazırlanıb</span>
+                    <h1 class="hero-title">Narin, bu gözəllik <span>sənin üçündür.</span></h1>
+                    <p class="hero-description">
+                        Bəzən bir insana nə qədər dəyər verdiyini sözlərlə anlatmaq çətin olur. Ona görə sənə bu kiçik dünyanı hazırladım ki, hər detalda səni necə düşünə bildiyimi hiss edəsən.
+                    </p>
+                    <button class="btn-romantic" id="startJourneyBtn">
+                        <span>Sehrli dünyaya daxil ol</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Aşağı sürüşdür</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+        </section>
+
+        <section id="note">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Səmimi Etiraf</span>
+                    <h2 class="section-title">Sənə kiçik bir sözüm var...</h2>
+                    <p class="section-subtitle">Ürəyimdən süzülüb gələn bir neçə səmimi cümlə.</p>
+                </div>
+                <div class="note-card">
+                    <h3 class="note-salutation">Əziz Narin,</h3>
+                    <p class="note-text">
+                        Bu səhifədəki hər kiçik detalı düşünərkən tək bir məqsədim var idi: səni gülümsədən, içini istiləşdirən bir şey yaratmaq. Bəlkə bu, sadəcə rəqəmsal bir səhifədir, amma içində sənə ayırdığım vaxt, diqqət və ən saf sevgim var.
+                    </p>
+                    <p class="note-text">
+                        Həyatı gözəlləşdirən sənin o incə varlığın və hər anı işıqlandıran təbəssümündür. Yaxşı ki, varsan və yaxşı ki, bu kiçik dünyanın sahibisən.
+                    </p>
+                    <div class="note-signature">Sevgilərlə</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="qualities">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Xüsusi Detallar</span>
+                    <h2 class="section-title">Səni gözəl edən kiçik şeylər</h2>
+                    <p class="section-subtitle">Bəzən insanı xüsusi edən xırdalıqlar ən sadə anlarda gizlənir.</p>
+                </div>
+                <div class="qualities-grid">
+                    <div class="quality-card">
+                        <div class="quality-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <h3 class="quality-title">Gülüşün</h3>
+                        <p class="quality-desc">Ən adi anlara belə dərhal istilik və işıq qatan o gözəl təbəssümün.</p>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <h3 class="quality-title">Mehribanlığın</h3>
+                        <p class="quality-desc">İnsanın ürəyinə dərhal sakitlik və rahatlıq gətirən o incə ruhun.</p>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        </div>
+                        <h3 class="quality-title">Enerjin</h3>
+                        <p class="quality-desc">Bəzən kiçik bir sözünlə belə bütün günü gözəlləşdirə bilməyin.</p>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <h3 class="quality-title">Özün olmağın</h3>
+                        <p class="quality-desc">Səni başqa heç kimlə müqayisə etməyə ehtiyac qoymayan təbii gözəlliyin.</p>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1zm-9 8a6 6 0 1 1 6-6 6.007 6.007 0 0 1-6 6z"/></svg>
+                        </div>
+                        <h3 class="quality-title">Birlikdə gülmək</h3>
+                        <p class="quality-desc">Ən sadə şeylərdən belə ortaq sevinc və gülüş yaratmaq bacarığın.</p>
+                    </div>
+                    <div class="quality-card">
+                        <div class="quality-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        </div>
+                        <h3 class="quality-title">Xüsusiliyin</h3>
+                        <p class="quality-desc">Hər baxışınla bu dünyanı daha mənalı və parlaq etməyin.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="garden">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Sehrli Bağça</span>
+                    <h2 class="section-title">Sənin üçün açan kiçik bir bağ</h2>
+                    <p class="section-subtitle">Hər çiçəyə toxunaraq sənin üçün gizlənmiş xoş sözləri kəşf et.</p>
+                </div>
+                <div class="garden-container">
+                    <div class="garden-stage" id="gardenStage">
+                        <!-- Flowers will be injected or handled via JS/HTML -->
+                        <div class="interactive-flower" data-message="Gülümsəməyin hər şeyi dərhal gözəlləşdirir, Narin.">
+                            <svg class="flower-svg" viewBox="0 0 100 200">
+                                <path d="M50 200 L50 80" stroke="#7CB342" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M50 140 Q30 130 25 145 Q40 160 50 140" fill="#8BC34A"/>
+                                <path d="M50 110 Q70 100 75 115 Q60 130 50 110" fill="#8BC34A"/>
+                                <circle cx="50" cy="50" r="16" fill="#FFD54F"/>
+                                <circle cx="35" cy="50" r="14" fill="#F4A7C1"/>
+                                <circle cx="65" cy="50" r="14" fill="#F4A7C1"/>
+                                <circle cx="50" cy="35" r="14" fill="#F4A7C1"/>
+                                <circle cx="50" cy="65" r="14" fill="#F4A7C1"/>
+                                <circle cx="50" cy="50" r="7" fill="#FFF5F8"/>
+                            </svg>
+                            <span class="flower-hint">Toxun</span>
+                        </div>
+                        <div class="interactive-flower" data-message="Bu çiçək də sənin o saf və təmiz ürəyin üçün açdı.">
+                            <svg class="flower-svg" viewBox="0 0 100 200">
+                                <path d="M50 200 L50 80" stroke="#7CB342" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M50 130 Q70 120 75 135 Q60 150 50 130" fill="#8BC34A"/>
+                                <circle cx="50" cy="50" r="15" fill="#FFE082"/>
+                                <path d="M50 20 Q40 45 50 50 Q60 45 50 20Z" fill="#E982A6"/>
+                                <path d="M50 80 Q40 55 50 50 Q60 55 50 80Z" fill="#E982A6"/>
+                                <path d="M20 50 Q45 40 50 50 Q45 60 20 50Z" fill="#E982A6"/>
+                                <path d="M80 50 Q55 40 50 50 Q55 60 80 50Z" fill="#E982A6"/>
+                            </svg>
+                            <span class="flower-hint">Toxun</span>
+                        </div>
+                        <div class="interactive-flower" data-message="Bu kiçik dünyada ən gözəl və parlaq detal məhz sənsən.">
+                            <svg class="flower-svg" viewBox="0 0 100 200">
+                                <path d="M50 200 L50 80" stroke="#7CB342" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M50 150 Q30 140 25 155 Q40 170 50 150" fill="#8BC34A"/>
+                                <circle cx="50" cy="50" r="16" fill="#FFD54F"/>
+                                <circle cx="35" cy="50" r="14" fill="#F4A7C1"/>
+                                <circle cx="65" cy="50" r="14" fill="#F4A7C1"/>
+                                <circle cx="50" cy="35" r="14" fill="#F4A7C1"/>
+                                <circle cx="50" cy="65" r="14" fill="#F4A7C1"/>
+                                <circle cx="50" cy="50" r="7" fill="#FFF5F8"/>
+                            </svg>
+                            <span class="flower-hint">Toxun</span>
+                        </div>
+                        <div class="interactive-flower" data-message="Sənə hər gün sonsuz təbəssüm və sevinc arzulayıram.">
+                            <svg class="flower-svg" viewBox="0 0 100 200">
+                                <path d="M50 200 L50 80" stroke="#7CB342" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M50 130 Q70 120 75 135 Q60 150 50 130" fill="#8BC34A"/>
+                                <circle cx="50" cy="50" r="15" fill="#FFE082"/>
+                                <path d="M50 20 Q40 45 50 50 Q60 45 50 20Z" fill="#E982A6"/>
+                                <path d="M50 80 Q40 55 50 50 Q60 55 50 80Z" fill="#E982A6"/>
+                                <path d="M20 50 Q45 40 50 50 Q45 60 20 50Z" fill="#E982A6"/>
+                                <path d="M80 50 Q55 40 50 50 Q55 60 80 50Z" fill="#E982A6"/>
+                            </svg>
+                            <span class="flower-hint">Toxun</span>
+                        </div>
+                    </div>
+                    <div class="garden-message-box" id="gardenMessageBox">
+                        Çiçəklərdən birinə toxunaraq sevimli mesajı oxu...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="moments">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Xoşbəxt Anlar</span>
+                    <h2 class="section-title">Ən gözəl anlar kiçik şeylərdə gizlənir</h2>
+                    <p class="section-subtitle">Ürəyində təbəssüm yaradacaq xatirə kartlarına toxun.</p>
+                </div>
+                <div class="moments-grid">
+                    <div class="moment-card" tabindex="0">
+                        <div class="moment-icon">🌸</div>
+                        <h3 class="moment-title">Gələcək Anlar</h3>
+                        <p class="moment-preview">Birlikdə güləcəyimiz daha çox gözəl günlər üçün...</p>
+                        <div class="moment-reveal">Hər yeni gün səninlə birlikdə daha da mənalı və işıqlı olur.</div>
+                    </div>
+                    <div class="moment-card" tabindex="0">
+                        <div class="moment-icon">✨</div>
+                        <h3 class="moment-title">Təbəssüm</h3>
+                        <p class="moment-preview">Xatırladıqca üzümüzdə istilik yaradan anlar...</p>
+                        <div class="moment-reveal">Sənin hər gülümsəmən ətrafına ilham saçır.</div>
+                    </div>
+                    <div class="moment-card" tabindex="0">
+                        <div class="moment-icon">💫</div>
+                        <h3 class="moment-title">Adi Günlər</h3>
+                        <p class="moment-preview">Sadə bir günü belə özəl edən gözəlliklər...</p>
+                        <div class="moment-reveal">Hətta ən sıxıcı anlar belə səninlə əyləncəli olur.</div>
+                    </div>
+                    <div class="moment-card" tabindex="0">
+                        <div class="moment-icon">🌷</div>
+                        <h3 class="moment-title">Şirin Xatirələr</h3>
+                        <p class="moment-preview">Hələ yaşamadığımız səssiz və xoşbəxt anlar...</p>
+                        <div class="moment-reveal">Qarşıda bizi gözləyən saysız-hesabsız gözəl günlər var.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="letter">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Qəlbimdən Sətrə</span>
+                    <h2 class="section-title">Ürəyimdən sənə...</h2>
+                    <p class="section-subtitle">Zərif zərfə toxunaraq məktubu oxumağa başla.</p>
+                </div>
+                <div class="envelope-container">
+                    <div class="envelope-wrapper" id="envelopeWrapper" role="button" aria-label="Məktubu aç">
+                        <div class="envelope-flap"></div>
+                        <div class="envelope-seal">
+                            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <span class="envelope-prompt">Məktubu açmaq üçün toxun</span>
+                    </div>
+
+                    <div class="love-letter-paper" id="loveLetterPaper">
+                        <div class="letter-content">
+                            <h3>Əziz Narin,</h3>
+                            <p>
+                                Bəzən həyatın təlaşından başımızı qaldırıb ətrafımıza baxanda, həqiqətən dəyərli olan tək şeyin səmimi duyğular və xoş xatirələr olduğunu anlayırıq. Sən mənim həyatımda məhz elə incə və təkrarolunmaz bir dəyərsən.
+                            </p>
+                            <p>
+                                Bu veb-səhifəni hazırlayarkən hər bir hərfində, hər bir dizayn detalında sənin o zərif enerjini hiss etməyə çalışdım. İstədim ki, nə zaman özünü xüsusi və sevilən hiss etmək istəsən, bu kiçik dünyaya qayıdıb üzündə təkrar təbəssüm yarada biləsən.
+                            </p>
+                            <p>
+                                Həyat yolumda sənin kimi bir insanın olması böyük bir şansdır. Hər zaman belə gülərüz, mehriban və işıqlı qal.
+                            </p>
+                            <div class="signature">Sənin üçün xüsusi hazırlanmışdır</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="surprise">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Balaca Sürpriz</span>
+                    <h2 class="section-title">Sənin üçün balaca bir sürprizim də var</h2>
+                    <p class="section-subtitle">Qutuya toxunaraq içindəki gizli mesajı üzə çıxar.</p>
+                </div>
+                <div class="gift-container">
+                    <div class="gift-box-wrapper" id="giftBox" role="button" aria-label="Sürprizi aç">
+                        <div class="gift-box-lid">
+                            <div class="gift-ribbon-vertical"></div>
+                        </div>
+                        <div class="gift-box-body">
+                            <div class="gift-ribbon-vertical"></div>
+                            <div class="gift-ribbon-horizontal"></div>
+                        </div>
+                    </div>
+
+                    <div class="gift-reveal-card" id="giftRevealCard">
+                        <h3>Narin, yaxşı ki, varsan!</h3>
+                        <p>
+                            Ümid edirəm bu kiçik sürpriz üzündə şirin bir təbəssüm yaratdı. Çünki bu səhifənin var olmasının tək və ən gözəl səbəbi səni sevindirmək və sənə verdiyim dəyəri bir daha xatırlatmaqdır. Həmişə xoşbəxt ol!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="outro">
+            <div class="container">
+                <div class="outro-content">
+                    <svg class="outro-heart-big" id="finalHeartBtn" viewBox="0 0 24 24" title="Toxun və sevgi göndər">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span class="section-tag">Sonsuz Sevgi ilə</span>
+                    <h2 class="outro-title">Bu kiçik dünyanın ən gözəl tərəfi... <span>Sənsən, Narin.</span></h2>
+                    <p class="outro-desc">
+                        Ümid edirəm bu kiçik dünyanı gəzərkən ürəyin istiləşdi və üzündə şirin bir təbəssüm yarandı. Bu səhifə sənə olan sevgimin balaca bir xatirəsidir.
+                    </p>
+                    <button class="btn-romantic" id="restartBtn">
+                        <span>Yenidən yaşamaq istəyirəm</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Narin üçün xüsusi sevgi ilə hazırlanmışdır • Bütün hüquqlar qorunur</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Particle Canvas Background System
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height + canvas.height;
+                    this.size = Math.random() * 4 + 2;
+                    this.speedY = Math.random() * 0.8 + 0.3;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                    this.color = Math.random() > 0.5 ? '#F4A7C1' : '#BFA7F2';
+                }
+                update() {
+                    this.y -= this.speedY;
+                    this.x += this.speedX;
+                    if (this.y < -10) {
+                        this.reset();
+                    }
+                }
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < 40; i++) {
+                const p = new Particle();
+                p.y = Math.random() * canvas.height;
+                particles.push(p);
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            // Scroll Observer for Section Entrances
+            const sections = document.querySelectorAll('section');
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Smooth Scroll from Hero CTA
+            const startJourneyBtn = document.getElementById('startJourneyBtn');
+            startJourneyBtn.addEventListener('click', () => {
+                const noteSection = document.getElementById('note');
+                noteSection.scrollIntoView({ behavior: 'smooth' });
+                createHeartBurst(window.innerWidth / 2, window.innerHeight / 2);
+            });
+
+            // Interactive Flower Garden
+            const flowers = document.querySelectorAll('.interactive-flower');
+            const gardenMessageBox = document.getElementById('gardenMessageBox');
+
+            flowers.forEach(flower => {
+                flower.addEventListener('click', () => {
+                    const message = flower.getAttribute('data-message');
+                    gardenMessageBox.textContent = message;
+                    gardenMessageBox.classList.add('show');
+                    
+                    const rect = flower.getBoundingClientRect();
+                    createPetalBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                });
+            });
+
+            // Memory Cards Expansion
+            const momentCards = document.querySelectorAll('.moment-card');
+            momentCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const isActive = card.classList.contains('active');
+                    momentCards.forEach(c => c.classList.remove('active'));
+                    if (!isActive) {
+                        card.classList.add('active');
+                    }
+                });
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    }
+                });
+            });
+
+            // Love Letter Opening Animation
+            const envelopeWrapper = document.getElementById('envelopeWrapper');
+            const loveLetterPaper = document.getElementById('loveLetterPaper');
+
+            envelopeWrapper.addEventListener('click', () => {
+                if (!envelopeWrapper.classList.contains('open')) {
+                    envelopeWrapper.classList.add('open');
+                    setTimeout(() => {
+                        envelopeWrapper.style.display = 'none';
+                        loveLetterPaper.classList.add('show');
+                        loveLetterPaper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        createHeartBurst(window.innerWidth / 2, window.innerHeight / 2);
+                    }, 600);
+                }
+            });
+
+            // Gift Box Surprise
+            const giftBox = document.getElementById('giftBox');
+            const giftRevealCard = document.getElementById('giftRevealCard');
+
+            giftBox.addEventListener('click', () => {
+                if (!giftBox.classList.contains('opened')) {
+                    giftBox.classList.add('opened');
+                    setTimeout(() => {
+                        giftBox.style.display = 'none';
+                        giftRevealCard.classList.add('show');
+                        giftRevealCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        createHeartBurst(window.innerWidth / 2, window.innerHeight / 2);
+                    }, 600);
+                }
+            });
+
+            // Final Heart Interaction & Restart
+            const finalHeartBtn = document.getElementById('finalHeartBtn');
+            finalHeartBtn.addEventListener('click', (e) => {
+                const rect = finalHeartBtn.getBoundingClientRect();
+                createHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            });
+
+            const restartBtn = document.getElementById('restartBtn');
+            restartBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Helper function for heart burst effects
+            function createHeartBurst(x, y) {
+                const count = 12;
+                for (let i = 0; i < count; i++) {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.style.position = 'fixed';
+                    heart.style.left = x + 'px';
+                    heart.style.top = y + 'px';
+                    heart.style.fontSize = (Math.random() * 12 + 14) + 'px';
+                    heart.style.pointerEvents = 'none';
+                    heart.style.zIndex = '9999';
+                    heart.style.transition = 'all 1s cubic-bezier(0.16, 1, 0.3, 1)';
+                    document.body.appendChild(heart);
+
+                    const angle = (i / count) * Math.PI * 2;
+                    const velocity = Math.random() * 80 + 50;
+                    const destX = Math.cos(angle) * velocity;
+                    const destY = Math.sin(angle) * velocity - 30;
+
+                    requestAnimationFrame(() => {
+                        heart.style.transform = `translate(${destX}px, ${destY}px) scale(1.3)`;
+                        heart.style.opacity = '0';
+                    });
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 1000);
+                }
+            }
+
+            // Helper function for petal burst effects
+            function createPetalBurst(x, y) {
+                const count = 8;
+                for (let i = 0; i < count; i++) {
+                    const petal = document.createElement('div');
+                    petal.innerHTML = '🌸';
+                    petal.style.position = 'fixed';
+                    petal.style.left = x + 'px';
+                    petal.style.top = y + 'px';
+                    petal.style.fontSize = (Math.random() * 10 + 12) + 'px';
+                    petal.style.pointerEvents = 'none';
+                    petal.style.zIndex = '9999';
+                    petal.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+                    document.body.appendChild(petal);
+
+                    const angle = (i / count) * Math.PI * 2;
+                    const velocity = Math.random() * 60 + 40;
+                    const destX = Math.cos(angle) * velocity;
+                    const destY = Math.sin(angle) * velocity - 40;
+
+                    requestAnimationFrame(() => {
+                        petal.style.transform = `translate(${destX}px, ${destY}px) rotate(${Math.random() * 180}deg) scale(1.2)`;
+                        petal.style.opacity = '0';
+                    });
+
+                    setTimeout(() => {
+                        petal.remove();
+                    }, 800);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
